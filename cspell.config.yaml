@@ -1,0 +1,12 @@
+version: "0.2"
+language: en
+words:
+  - Zenn
+  - negineri
+  - witenp
+  - Quadlet
+  - Podman
+ignorePaths:
+  - node_modules/**
+  - package-lock.json
+  - cspell.config.yaml

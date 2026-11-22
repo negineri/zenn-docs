@@ -1,0 +1,12 @@
+{
+  // Zenn の記事は front matter でタイトルを持ち、本文が見出しから始まるとは
+  // 限らないため MD041 は無効。埋め込み HTML (Zenn 独自記法の補完) を使う
+  // ため MD033 も無効。行長は日本語の自然な折り返しに合わせて MD013 無効。
+  "config": {
+    "MD013": false,
+    "MD033": false,
+    "MD041": false
+  },
+  "globs": ["**/*.md"],
+  "ignores": ["node_modules/**"]
+}
