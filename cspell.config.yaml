@@ -6,6 +6,12 @@ words:
   - witenp
   - Quadlet
   - Podman
+  - dbus
+  - dryrun
+  - healthcheck
+  - journalctl
+  - passt
+  - uidmap
 ignorePaths:
   - node_modules/**
   - package-lock.json
