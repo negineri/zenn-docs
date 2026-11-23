@@ -3,7 +3,7 @@ title: "Rocky Linux 10.3 で FreeIPA サーバーの dnf update が依存解決�
 emoji: "🐈"
 type: "tech"
 topics: ["rockylinux", "freeipa", "dnf", "ansible", "tomcat"]
-published: false
+published: true
 ---
 
 自宅の FreeIPA サーバー (Rocky Linux 10.2) を Ansible で更新したところ、`dnf` の依存解決で止まりました。
