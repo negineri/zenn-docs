@@ -6,6 +6,31 @@ words:
   - witenp
   - Quadlet
   - Podman
+  - allowerasing
+  - assumeno
+  - baseos
+  - certmonger
+  - Depsolve
+  - Dogtag
+  - freeipa
+  - gpgkey
+  - healthcheck
+  - installonly
+  - ipactl
+  - IPADNA
+  - ipahealthcheck
+  - ipatest
+  - ipaupgrade
+  - jakartaee
+  - noarch
+  - nobest
+  - NSSDB
+  - posttrans
+  - releasever
+  - repoquery
+  - rockylinux
+  - tomcatd
+  - trustflags
 ignorePaths:
   - node_modules/**
   - package-lock.json
