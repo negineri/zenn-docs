@@ -6,6 +6,14 @@ words:
   - witenp
   - Quadlet
   - Podman
+  - EVPN
+  - evpn
+  - VXLAN
+  - VTEP
+  - autort
+  - vnet
+  - mgmt
+  - finalizer
 ignorePaths:
   - node_modules/**
   - package-lock.json
