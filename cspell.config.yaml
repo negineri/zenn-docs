@@ -6,6 +6,13 @@ words:
   - witenp
   - Quadlet
   - Podman
+  - cloudinit
+  - netplan
+  - dracut
+  - networkd
+  - virt
+  - virtio
+  - guestfish
 ignorePaths:
   - node_modules/**
   - package-lock.json
