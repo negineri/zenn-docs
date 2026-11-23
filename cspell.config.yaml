@@ -6,6 +6,7 @@ words:
   - witenp
   - Quadlet
   - Podman
+  - githubactions
 ignorePaths:
   - node_modules/**
   - package-lock.json
