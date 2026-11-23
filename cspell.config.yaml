@@ -6,6 +6,9 @@ words:
   - witenp
   - Quadlet
   - Podman
+  - cloudinit
+  - deletekeys
+  - haresource
 ignorePaths:
   - node_modules/**
   - package-lock.json
