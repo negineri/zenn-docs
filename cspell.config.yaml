@@ -6,6 +6,8 @@ words:
   - witenp
   - Quadlet
   - Podman
+  - noout
+  - onboot
 ignorePaths:
   - node_modules/**
   - package-lock.json
