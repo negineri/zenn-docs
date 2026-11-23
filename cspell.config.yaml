@@ -6,6 +6,31 @@ words:
   - witenp
   - Quadlet
   - Podman
+  - mountpoint
+  - ioengine
+  - psync
+  - numjobs
+  - randwrite
+  - ashift
+  - recordsize
+  - writeback
+  - librbd
+  - krbd
+  - sysrq
+  - iodepth
+  - hashlib
+  - WRONLY
+  - CREAT
+  - urandom
+  - acked
+  - VMID
+  - cmdline
+  - vdev
+  - Nextcloud
+  - iflag
+  - sgdisk
+  - libaio
+  - xattr
 ignorePaths:
   - node_modules/**
   - package-lock.json
