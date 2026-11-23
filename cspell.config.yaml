@@ -6,6 +6,16 @@ words:
   - witenp
   - Quadlet
   - Podman
+  - netboot
+  - mgmt
+  - UEFI
+  - tftpd
+  - OVMF
+  - UNDI
+  - wimboot
+  - VirtIO
+  - virtio
+  - journalctl
 ignorePaths:
   - node_modules/**
   - package-lock.json
