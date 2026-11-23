@@ -17,6 +17,7 @@ words:
   - healthcheck
   - installonly
   - ipactl
+  - IPADNA
   - ipahealthcheck
   - ipatest
   - ipaupgrade

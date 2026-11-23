@@ -13,7 +13,7 @@ published: true
 ## 環境
 
 - Rocky Linux 10.2 (更新先は 10.3)
-- FreeIPA 4.13.4 (CA、統合 DNS、ACME を有効にしたサーバー 3 台)
+- FreeIPA 4.13.4 (CA と統合 DNS を持つサーバー 3 台。ACME のパッケージは入っているが無効)
 - 更新は Ansible の `ansible.builtin.dnf` で `name: "*"`、`state: latest`
 
 更新前のおもなパッケージは次のとおりです。
@@ -143,7 +143,7 @@ sudo systemctl reboot
 `distro-sync` にも `--allowerasing` が要りました。
 cloud image に入っていた samba のライブラリが 10.3 の版で、10.2 のリポジトリには対応する版が無いためです。
 
-戻したあと、本番と同じ版の FreeIPA を入れ、CA、統合 DNS、ACME を有効にしたサーバーを架空のドメインで構築しました。
+戻したあと、本番と同じ版の FreeIPA を入れ、CA と統合 DNS を持つサーバーを架空のドメインで構築しました。ACME の移行も見るため、検証用 VM では ACME を有効にしています。
 
 ```bash
 sudo dnf -y install --releasever=10.2 ipa-server ipa-server-dns ipa-healthcheck
@@ -170,6 +170,23 @@ sudo ipa-acme-manage enable
 RPM の `%posttrans` で走る `ipa-server-upgrade` も成功しており、`pki-server upgrade` も含めて自動で移行されました。
 手で設定を直す必要はありませんでした。
 
+## 本番の更新
+
+検証用 VM で確かめたあと、本番の 3 台を 1 台ずつ更新しました。
+1 台目の検証が通ってから次の 1 台に進む形で、`allowerasing` を有効にした以外は普段の更新と同じ手順です。
+
+| 確認したこと | 3 台とも |
+| --- | --- |
+| OS | Rocky Linux 10.3 |
+| パッケージ | `ipa-server-4.13.4-1.el10_3.1`、`idm-pki-server-11.9.0-9.el10_3.1`、tomcat 10.1.49 (tomcat9 は削除) |
+| サービス | `ipactl status` は全サービス RUNNING、新しく failed になった systemd ユニットは無し |
+| CA | pki-tomcatd が `/usr/share/tomcat` (10.1) で起動 |
+| `ipa-server-upgrade` | 成功 |
+| certmonger | 追跡している 9 件がすべて MONITORING |
+| `ipa-healthcheck` | ERROR、CRITICAL は無し (WARNING は更新前からある `IPADNARangeCheck` だけ) |
+
+検証用 VM と同じく、手で設定を直す必要はありませんでした。
+
 ## ついでに見つけた落とし穴
 
 ### ipaupgrade.log が grep でバイナリ扱いになる
@@ -180,14 +197,15 @@ RPM の `%posttrans` で走る `ipa-server-upgrade` も成功しており、`pki
 grep -o 'The ipa-server-upgrade command [a-z ]*' /var/log/ipaupgrade.log | tail -n 1
 ```
 
-10.3 への更新のあと、この grep は何も出力しなくなりました。
+検証用 VM では、10.3 への更新のあと、この grep が何も出力しなくなりました。
 
 ```console
 $ sudo grep -o 'The ipa-server-upgrade command [a-z ]*' /var/log/ipaupgrade.log
 grep: /var/log/ipaupgrade.log: binary file matches
 ```
 
-`ipa-server-upgrade` が、Kerberos の鍵などのバイナリを DEBUG 行にそのまま書き込んでいたためです。
+更新中に書かれた DEBUG 行に、Kerberos のプリンシパルを含むバイナリデータがそのまま入っていたためです。
+本番の 3 台のログでは起きなかったので、いつも起きるわけではありません。
 GNU grep はバイナリを含むファイルでは一致行を出さず、stderr にこのメッセージだけを出します。
 stdout は空になります。
 検証側は「結果の行があれば、それが成功かどうかを見る」という作りだったので、成否の判定が何も言わずに skip されていました。
@@ -218,5 +236,6 @@ FreeIPA の検証用 VM は、本番に近い CPU 数で作ったほうが余計
 - Rocky Linux 10.3 では、FreeIPA の CA (idm-pki) が tomcat9 から tomcat 10.1 に移った
 - `tomcat-lib` が tomcat9 と conflicts するので、`dnf upgrade` には `--allowerasing` が要る
 - 消えるのは tomcat9 の 5 個だけで、CA のインスタンスは更新時に自動で移行され、そのまま動いた
+- 本番の 3 台も同じ手順で更新でき、手で直すところは無かった
 - vault のリポジトリで 1 つ前のマイナーリリースに戻せば、マイナーリリースの更新を手元で再現できる
 - ログを grep で判定するときは `-a` を付ける
