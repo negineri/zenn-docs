@@ -1,5 +1,5 @@
 ---
-title: "Proxmox VE にコントリビュートする実際の流れ：Bugzilla の要望からパッチ提出準備まで"
+title: "Proxmox VE にコントリビュートする実際の流れ：Bugzilla の要望からパッチ投稿まで"
 emoji: "🛠️"
 type: "tech"
 topics: ["proxmox", "cloudinit", "oss", "debian", "git"]
@@ -10,7 +10,7 @@ published: false
 
 Proxmox VE が生成する cloud-init の設定には、ゲストの `/etc/hosts` を管理する `manage_etc_hosts: true` が入ります。この動作を VM ごとに無効化するパッチを書き、使い捨ての VM に Proxmox VE を入れて検証しました。
 
-この記事では、Bugzilla の要望から変更範囲を決め、バックエンドと Web UI を別々のパッチにして、メーリングリストへの提出を準備した流れを紹介します。執筆時点では検証と修正まで完了し、上流への送信とレビューはこれからです。
+この記事では、Bugzilla の要望から変更範囲を決め、バックエンドと Web UI を別々のパッチにして、テスト VM での検証からメーリングリストへの投稿までを紹介します。パッチは投稿済みで、上流のレビューを待っています。
 
 ## Bugzilla の要望を実装条件に落とす
 
@@ -70,14 +70,18 @@ qm cloudinit update "$VMID"
 
 別の検証 VM に修正前と修正後のコードを順に入れ、同じゲストと同じ権限で比較しました。差分 API には追加・適用・変更・削除を含む 5 ケースの回帰テストを追加しました。検証が終わった VM は Terraform で削除しています。
 
-## メーリングリストに送れる形にする
+## CLA を提出する
 
-ここからは今回の提出準備で残っている手順です。
+Proxmox は、コードを貢献する前に CLA への署名を求めています。個人向けの書式に署名して案内の宛先へメールで送付し、登録されたことを返信で確認しました。パッチの `Author` と `Signed-off-by` に使う表記も、送付前に確認しました。 [Proxmox の貢献ガイドと CLA](https://www.proxmox.com/en/about/open-source/developers)
 
-1. 両リポジトリの最新 `master` に載せ直し、差分、関連テスト、通常ビルドを確認する。
-2. Proxmox の CLA の提出状況を確認し、必要なら本人が署名する。パッチの `Author` と `Signed-off-by` も確認する。
-3. 英文カバーレターに Bugzilla の番号、従来の既定値を維持する理由、`cimanagehosts=0` の例、パッチの依存関係、実際に行った検証を記載する。
-4. カバーレターとパッチ 2 本をひとつのシリーズにまとめ、`git send-email --dry-run` で宛先と順序を確認する。確認後、`pve-devel@lists.proxmox.com` に送付する。
-5. 投稿後は Bugzilla にアーカイブへのリンクと検証結果を追記する。レビューで修正した場合は、変更点を書いて次の版を送る。
+## 3 通を同じスレッドに投稿する
 
-別々のリポジトリをまたぐ変更では、どちらを先に適用するかをカバーレターで伝えます。レビューする人が実機に触れなくても、どのバージョンで何を再現し、修正後にどの結果へ変わったかを読めるようにしました。 [Proxmox の貢献ガイドと CLA](https://www.proxmox.com/en/about/open-source/developers) · [開発メーリングリストの投稿例](https://lore.proxmox.com/pve-devel/20261116133238.83435-1-lucasbarros.kam%40gmail.com/)
+投稿前に、両方のパッチを公式の最新 `master` に載せ直しました。`qemu-server` では、前回失敗した 5 件に対応する上流修正が入り、API テスト 41 件がすべて通りました。Cloud-Init の回帰テストと Web UI の lint を再実行し、両パッケージの通常ビルドも成功しました。
+
+英文カバーレターには Bugzilla の番号、設定例、既定値を維持する理由、適用順、検証結果を記載しました。AI コーディングアシスタントを使って変更を準備し、テストしたことも明記しました。カバーレターを `0/2`、`qemu-server` を `1/2`、`pve-manager` を `2/2` とし、対象リポジトリが件名から分かるようにしました。
+
+まず `git send-email --dry-run` で宛先と順序を確認し、自分で受信できるメールアドレスへ試送しました。本送信では宛先を `pve-devel@lists.proxmox.com` にし、`--thread --no-chain-reply-to` を指定しました。これでパッチ 2 本が、どちらもカバーレターに対する返信になります。 [投稿したパッチシリーズ](https://lore.proxmox.com/pve-devel/20261124212608.12996-1-negineri@sfc.wide.ad.jp/T/)
+
+## Bugzilla に検証結果とリンクを追記する
+
+送付後に公開アーカイブで 3 通が同じスレッドに載ったことを確認し、Bugzilla にスレッドのリンクと検証結果を追記しました。メーリングリストにパッチが存在する段階に対応する Bugzilla のステータスは `PATCH AVAILABLE` です。現在は、上流でのレビューを待っています。 [Bugzilla #7100](https://bugzilla.proxmox.com/show_bug.cgi?id=7100) · [Proxmox スタッフによるステータスの説明](https://forum.proxmox.com/threads/general-questions-about-bugzilla-feature-requests.176005/)
