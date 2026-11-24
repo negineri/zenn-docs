@@ -1,0 +1,38 @@
+# テスト VM, 追加ディスク cache=writeback 上の ZFS (ashift=9, recordsize=128K)
+# 各回: 非同期の fio (randwrite 64k, iodepth 32) + writer.py (4016 B のレコードを書くたびに fsync) を流し、
+#        20〜60 秒後に ホストで qemu を kill -9 → 起動し直した後に zpool status と verify.py
+# acked = 外のマシン が受け取った最後の番号 (fsync が返った後にだけ出力される)。last_valid >= acked なら OK
+killed at 23:24:44
+[wb01] pool 'tank' is healthy
+[wb01] records_on_disk=14293 last_valid=14292 acked=14291 torn_tail_bytes=0 OK
+killed at 23:30:45
+[wb02] pool 'tank' is healthy
+[wb02] records_on_disk=31843 last_valid=31842 acked=31841 torn_tail_bytes=0 OK
+killed at 23:36:22
+[wb03] pool 'tank' is healthy
+[wb03] records_on_disk=49876 last_valid=49875 acked=49874 torn_tail_bytes=0 OK
+killed at 23:41:45
+[wb04] pool 'tank' is healthy
+[wb04] records_on_disk=60447 last_valid=60446 acked=60445 torn_tail_bytes=0 OK
+killed at 23:47:33
+[wb05] pool 'tank' is healthy
+[wb05] records_on_disk=84595 last_valid=84594 acked=84593 torn_tail_bytes=0 OK
+killed at 23:52:56
+[wb06] pool 'tank' is healthy
+[wb06] records_on_disk=95407 last_valid=95406 acked=95405 torn_tail_bytes=0 OK
+killed at 23:58:53
+[wb07] pool 'tank' is healthy
+[wb07] records_on_disk=123841 last_valid=123840 acked=123839 torn_tail_bytes=0 OK
+killed at 00:04:33
+[wb08] pool 'tank' is healthy
+[wb08] records_on_disk=143633 last_valid=143632 acked=143631 torn_tail_bytes=0 OK
+killed at 00:10:05
+[wb09] pool 'tank' is healthy
+[wb09] records_on_disk=159363 last_valid=159362 acked=159361 torn_tail_bytes=0 OK
+killed at 00:15:55
+[wb10] pool 'tank' is healthy
+[wb10] records_on_disk=183130 last_valid=183129 acked=183128 torn_tail_bytes=0 OK
+
+# 10 回の後の scrub
+scan: scrub repaired 0B in 00:00:22 with 0 errors on Fri Oct 16 15:21:38 2026
+errors: No known data errors

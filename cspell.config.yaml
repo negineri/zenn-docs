@@ -17,6 +17,14 @@ words:
   - virtio
   - BDRV
   - NOCACHE
+  - VMID
+  - acked
+  - acks
+  - ashift
+  - clat
+  - powerloss
+  - pvestatd
+  - recordsize
 ignorePaths:
   - node_modules/**
   - package-lock.json

@@ -1,0 +1,15 @@
+{"fs": "ext4", "mode": "none", "run": 1, "fsyncs_before_kill": 8506, "first_seq": 0, "acked": 8505, "verify": null, "note": "再起動直後の検査の SSH が空振りして結果が取れなかった。次の回 (none 2) は first_seq=8507 から書き、終わりにファイル全体 (この回の acked=8505 までを含む) を検査して OK だった"}
+{"fs": "ext4", "mode": "none", "run": 2, "fsyncs_before_kill": 15092, "first_seq": 8507, "acked": 23598, "verify": "records_on_disk=23599 last_valid=23598 acked=23598 torn_tail_bytes=0 OK"}
+{"fs": "ext4", "mode": "none", "run": 3, "fsyncs_before_kill": 12793, "first_seq": 23599, "acked": 36391, "verify": "records_on_disk=36393 last_valid=36392 acked=36391 torn_tail_bytes=0 OK"}
+{"fs": "ext4", "mode": "none", "run": 4, "fsyncs_before_kill": 11544, "first_seq": 36393, "acked": 47936, "verify": "records_on_disk=47937 last_valid=47936 acked=47936 torn_tail_bytes=0 OK"}
+{"fs": "ext4", "mode": "none", "run": 5, "fsyncs_before_kill": 13632, "first_seq": 47937, "acked": 61568, "verify": "records_on_disk=61569 last_valid=61568 acked=61568 torn_tail_bytes=0 OK"}
+{"fs": "ext4", "mode": "writethrough", "run": 1, "fsyncs_before_kill": 13386, "first_seq": 61569, "acked": 74954, "verify": "records_on_disk=74955 last_valid=74954 acked=74954 torn_tail_bytes=0 OK"}
+{"fs": "ext4", "mode": "writethrough", "run": 2, "fsyncs_before_kill": 9973, "first_seq": 74955, "acked": 84927, "verify": "records_on_disk=84928 last_valid=84927 acked=84927 torn_tail_bytes=0 OK"}
+{"fs": "ext4", "mode": "writethrough", "run": 3, "fsyncs_before_kill": 10573, "first_seq": 84928, "acked": 95500, "verify": "records_on_disk=95501 last_valid=95500 acked=95500 torn_tail_bytes=0 OK"}
+{"fs": "ext4", "mode": "writethrough", "run": 4, "fsyncs_before_kill": 9687, "first_seq": 95501, "acked": 105187, "verify": "records_on_disk=105188 last_valid=105187 acked=105187 torn_tail_bytes=0 OK"}
+{"fs": "ext4", "mode": "writethrough", "run": 5, "fsyncs_before_kill": 7972, "first_seq": 105188, "acked": 113159, "verify": "records_on_disk=113161 last_valid=113160 acked=113159 torn_tail_bytes=0 OK"}
+{"fs": "ext4", "mode": "directsync", "run": 1, "fsyncs_before_kill": 7868, "first_seq": 113161, "acked": 121028, "verify": "records_on_disk=121030 last_valid=121029 acked=121028 torn_tail_bytes=0 OK"}
+{"fs": "ext4", "mode": "directsync", "run": 2, "fsyncs_before_kill": 5258, "first_seq": 121030, "acked": 126287, "verify": "records_on_disk=126288 last_valid=126287 acked=126287 torn_tail_bytes=0 OK"}
+{"fs": "ext4", "mode": "directsync", "run": 3, "fsyncs_before_kill": 10590, "first_seq": 126288, "acked": 136877, "verify": "records_on_disk=136878 last_valid=136877 acked=136877 torn_tail_bytes=0 OK"}
+{"fs": "ext4", "mode": "directsync", "run": 4, "fsyncs_before_kill": 12558, "first_seq": 136878, "acked": 149435, "verify": "records_on_disk=149436 last_valid=149435 acked=149435 torn_tail_bytes=0 OK"}
+{"fs": "ext4", "mode": "directsync", "run": 5, "fsyncs_before_kill": 5861, "first_seq": 149436, "acked": 155296, "verify": "records_on_disk=155297 last_valid=155296 acked=155296 torn_tail_bytes=0 OK"}
