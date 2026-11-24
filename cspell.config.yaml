@@ -31,6 +31,8 @@ words:
   - sgdisk
   - libaio
   - xattr
+  - iothread
+  - zfetch
 ignorePaths:
   - node_modules/**
   - package-lock.json
