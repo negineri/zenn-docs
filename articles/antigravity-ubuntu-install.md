@@ -13,6 +13,8 @@ published: true
 Antigravity の Linux x64 版は `tar.gz` で配布されており、展開したディレクトリにはアイコン画像や `.desktop` ファイルが含まれていません。
 この記事では、Antigravity をユーザー専用のディレクトリ（`~/.local/opt/Antigravity-x64`）に展開し、Ubuntu のアプリ一覧からクリックで起動できるようにする手順をまとめます。
 
+![デスクトップのスクリーンショット](/images/antigravity-ubuntu-install/ubuntu-desktop-capture.jpg)
+
 確認した環境と前提は次のとおりです。
 
 - OS: Ubuntu 26.04.1 LTS（x86_64）
