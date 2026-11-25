@@ -28,6 +28,7 @@ words:
   - powerloss
   - pvestatd
   - recordsize
+  - mbps
 ignorePaths:
   - node_modules/**
   - package-lock.json
