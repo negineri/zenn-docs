@@ -1,0 +1,32 @@
+# テスト VM (Ubuntu 26.04、ZFS 2.4.1、8 vCPU / 4 GB、EC プールの上の 300 GB ディスク) での fio の結果。
+# 実行したスクリプトは ../scripts/zfs-bench.sh。引数は <ashift> <recordsize> <async_read> <sync_read> <async_write> <label>
+#   seqW        : 1M 連続書き込み 8 GB (最後に fsync)                       MB/s
+#   coldSeqR    : pool を export/import して ARC を空にした後の 1M 連続読み取り MB/s
+#   coldR4job   : 同じく 4 本同時の 1M 連続読み取り                         MB/s
+#   smallW      : 64K のファイル 1000 個の作成 (close 時に fsync)           MB/s
+#   smallColdR  : その 1000 個を ARC を空にした後に読む                     MB/s
+#   syncRandW16k: 1 GB のファイルへの 16K ランダム同期書き込み (O_SYNC)      IOPS
+# "default" は本番と同じ値 (async_read=3, sync_read=10, async_write=10)。qN は 3 つとも N
+
+# round1 (cache=none): ashift / recordsize / vdev queue depth
+ashift9 rs128K default(prod) seqW=  180  coldSeqR=  253  coldR4job=  601  smallW=   46  smallColdR=   50 MB/s  syncRandW16k=  517 IOPS
+ashift9 rs128K q16           seqW=  209  coldSeqR=  346  coldR4job=  850  smallW=   26  smallColdR=   50 MB/s  syncRandW16k=  526 IOPS
+ashift9 rs128K q32           seqW=  298  coldSeqR=  556  coldR4job=  957  smallW=   28  smallColdR=   56 MB/s  syncRandW16k=  531 IOPS
+ashift12 rs128K default      seqW=  204  coldSeqR=  257  coldR4job=  579  smallW=   34  smallColdR=   57 MB/s  syncRandW16k=  519 IOPS
+ashift9 rs1M default         seqW=  498  coldSeqR=  526  coldR4job=  929  smallW=   52  smallColdR=   54 MB/s  syncRandW16k=  321 IOPS
+ashift12 rs1M default        seqW=  526  coldSeqR=  535  coldR4job=  945  smallW=   51  smallColdR=   51 MB/s  syncRandW16k=  362 IOPS
+ashift12 rs1M q32            seqW=  664  coldSeqR=  961  coldR4job= 1371  smallW=   30  smallColdR=   53 MB/s  syncRandW16k=  361 IOPS
+ashift9 rs1M q32             seqW=  637  coldSeqR= 1046  coldR4job= 1489  smallW=   28  smallColdR=   54 MB/s  syncRandW16k=  344 IOPS
+ashift9 rs128K default(again) seqW=  186  coldSeqR=  252  coldR4job=  576  smallW=   29  smallColdR=   55 MB/s  syncRandW16k=  532 IOPS
+
+# round2 (cache=none): which knob matters
+# 注: "asyncW32 only" は誤って async_read=10 で流した (既定は 3)。coldSeqR=301 はその分だけ上がっている
+rs128K asyncR32 only         seqW=  181  coldSeqR=  550  coldR4job=  896  smallW=   67  smallColdR=   55 MB/s  syncRandW16k=  530 IOPS
+rs128K asyncW32 only         seqW=  301  coldSeqR=  301  coldR4job=  691  smallW=   79  smallColdR=   54 MB/s  syncRandW16k=  526 IOPS
+rs128K q64                   seqW=  279  coldSeqR=  845  coldR4job= 1031  smallW=   33  smallColdR=   51 MB/s  syncRandW16k=  530 IOPS
+rs1M q64                     seqW=  644  coldSeqR=  952  coldR4job= 1455  smallW=   28  smallColdR=   52 MB/s  syncRandW16k=  335 IOPS
+
+# round3 (cache=writeback)
+WB rs128K default(prod)      seqW=  758  coldSeqR=  258  coldR4job=  591  smallW=   90  smallColdR=   56 MB/s  syncRandW16k=  636 IOPS
+WB rs128K q32                seqW=  781  coldSeqR=  553  coldR4job=  892  smallW=   33  smallColdR=   56 MB/s  syncRandW16k=  650 IOPS
+WB rs1M q32                  seqW=  837  coldSeqR= 1058  coldR4job= 1489  smallW=   29  smallColdR=   56 MB/s  syncRandW16k=  508 IOPS

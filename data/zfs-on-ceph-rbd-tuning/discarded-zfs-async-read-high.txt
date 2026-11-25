@@ -1,0 +1,12 @@
+# 使わなかった結果: 256 と 512 を、3〜128 で読んだファイルを使い回して測った回。
+# 512 の 1938 MB/s は、直前に読んだファイルが OSD 側のキャッシュに残っていたためとみて捨てた。0 MB/s は書き直し中のファイルを読んだ失敗
+1000
+async_read=128 file=f6 1224 MB/s
+async_read=256 file=f7 0 MB/s
+async_read=512 file=f8 00 MB/s
+set: 256
+async_read=256 file=f7 0 MB/s
+async_read=256 file=f7 0 MB/s
+set: 512
+async_read=512 file=f8 1938 MB/s
+async_read=256 file=f7 1332 MB/s
