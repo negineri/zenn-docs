@@ -1,6 +1,6 @@
 #!/bin/bash
 # 電源断の試験の 1 回分 (ext4)。usage: powerloss-run-ext4.sh <label>
-# writer.py と verify.py は先にゲストのホームに置く。ack (fsync が返ったレコード番号) は acks.<label> に残る
+# writer.py と verify.py は先にゲストのホームに置き、sync しておく (fsync していないファイルは kill で消える)。再起動の後も置き直す。ack (fsync が返ったレコード番号) は acks.<label> に残る
 #   GUEST_SSH: テスト VM に入る ssh コマンド (例: "ssh -i key user@<IP>")
 #   KILL_CMD:  ホストで qemu を止めて起動し直すコマンド
 #              (例: ssh root@<ホスト> 'kill -9 $(cat /var/run/qemu-server/<VMID>.pid); sleep 3; qm start <VMID>')
@@ -20,6 +20,7 @@ sleep $((20 + RANDOM % 40))
 eval "$KILL_CMD" >/dev/null
 sleep 2; acked=$(tail -n 1 $A); kill %1 2>/dev/null; wait 2>/dev/null
 for i in $(seq 1 60); do T true && break; sleep 5; done
+# ここで writer.py と verify.py を置き直して sync する
 for i in $(seq 1 12); do
   res=$(T "mountpoint -q /mnt/t || sudo mount $DEV /mnt/t 2>&1; python3 ~/verify.py /mnt/t/log $acked")
   [ -n "$res" ] && break; sleep 5

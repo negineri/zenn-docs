@@ -44,14 +44,15 @@
 
 | ファイル | ファイルシステム | モード | 日時 | スクリプト |
 | --- | --- | --- | --- | --- |
-| `powerloss-ext4.jsonl` | ext4 | `none`、`writethrough`、`directsync` を各 5 回 | 2026-11-24 | `scripts/powerloss-run-ext4.sh` |
-| `powerloss-zfs-writeback.txt` | ZFS (ashift 9、recordsize 128K) | `writeback` を 10 回 | 2026-10-16 | `scripts/powerloss-run-zfs.sh` |
-| `powerloss-zfs-unsafe.txt` | ZFS (ashift 9、recordsize 128K) | `unsafe` を 1 回 | 2026-10-16 | `scripts/powerloss-run-zfs.sh` |
+| `powerloss-ext4.jsonl` | ext4 | `none`、`writethrough`、`directsync`、`unsafe` を各 5 回、`writeback` を 10 回 | 2026-11-24 | `scripts/powerloss-run-ext4.sh` |
+| `reference-powerloss-zfs-*.txt` | ZFS (ashift 9、recordsize 128K) | `writeback` を 10 回、`unsafe` を 1 回 | 2026-10-16 | `scripts/reference-powerloss-run-zfs.sh` |
 
 - ディスクはどれも Ceph RBD
-- 各回は前の回のファイルの続きから書く。`first_seq` がその回の最初の番号、`acked` が fsync が返った最後の番号
-- `powerloss-zfs-writeback-acks.txt` は、ZFS の `writeback` の各回の ack の要約
-- ext4 の回は、別のファイルに 50 MB/s でランダムに書き込みながら試した。ZFS の回は速さを制限していない
+- 記事の表は ext4 の結果である。ZFS の結果は別の VM で先に試したもので、参考として残している (並行する書き込みの速さを制限していない)
+- 各回は前の回のファイルの続きから書く (`unsafe` は毎回ファイルを作り直した)。`first_seq` がその回の最初の番号、`acked` が fsync が返った最後の番号
+- 別のファイルに 50 MB/s でランダムに書き込みながら試した
+- `e2fsck_n_exit` は、検査の後にファイルシステムを外して `e2fsck -fn` した終了コード (0 は異常なし)。`writeback` と `unsafe` の回だけ記録している
+- `verify` が無い回は、検査に使う `verify.py` がゲストで消えていて結果が取れなかった回である (`note` を参照)。`verify.py` を毎回 fsync せずに送り直していたため、qemu を止めた後にゼロで埋まっていた。後の回のファイル全体の検査で、その回の分もそろっていたことを確かめている
 
 ## スクリプト
 
@@ -62,4 +63,4 @@
 | `scripts/host-guard.sh` | ホスト | `Dirty` が 20 GiB を超えるか、HA や pvestatd の遅れが出たら qemu を止める |
 | `scripts/writeback-burst.sh` | 外のマシン | 12 GiB を書いた直後と 90 秒後に fsync ごとの書き込みを測る |
 | `scripts/writer.py` / `scripts/verify.py` | ゲスト | 電源断の試験のレコードを書く / 検査する |
-| `scripts/powerloss-run-ext4.sh` / `scripts/powerloss-run-zfs.sh` | 外のマシン | 電源断の試験の 1 回分 |
+| `scripts/powerloss-run-ext4.sh` / `scripts/reference-powerloss-run-zfs.sh` | 外のマシン | 電源断の試験の 1 回分 |
