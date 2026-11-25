@@ -17,7 +17,7 @@
 - `MBps` は 10^6 バイト毎秒、`mean_us` と `p99_us` は完了までの時間 (clat) の平均と 99 パーセンタイル
 - `fio-rbd.jsonl` は `none` と `writeback` を 2 回ずつ測った。項目の間は 10 秒空けた
 - `fio-local-ssd.jsonl` は項目の間を 20 秒空けた。ホストで `scripts/host-guard.sh` を動かし、異常があれば止める用意をしていた
-- `fio-local-lvm-boot-ssd.jsonl` は記事には使っていない。`writeback` の回 (`run` 2) の `fsync_qd1` が 0 IOPS なのは、ホストに溜まった未書き出しのデータの書き出しを待ち続けたためである。この後、2 回目の `writeback` の計測中に、ホストは HA の watchdog で再起動 (fencing) された。そのため `run` 6 の結果は無い
+- `fio-local-lvm-boot-ssd.jsonl` は起動ディスクでの障害事例に使った。`writeback` の回 (`run` 2) の `fsync_qd1` が 0 IOPS なのは、書き出し待ちによるものとみている。この後、2 回目の `writeback` の計測中に、ホストは HA の watchdog で再起動 (fencing) された。そのため `run` 6 の結果は無い
 
 ### 項目
 
@@ -69,7 +69,7 @@
 - `writeback-burst-fio.jsonl`: 1 行目は各段階の開始時刻 (`T0` からの秒)、2 行目以降は fio の結果
 - `writeback-burst-host-meminfo.tsv`: ホストの `/proc/meminfo` の `Dirty` と `Writeback`、qemu の RSS を 1 秒ごとに記録したもの。`sec` は `T0` からの秒、ほかは kB
 
-## 電源断の試験
+## qemu 強制終了の試験
 
 ゲストでレコードを追記して 1 件ごとに fsync し (`scripts/writer.py`)、fsync が返った番号を外のマシンに送る。
 20〜60 秒後にホストで qemu を `kill -9` し、起動し直してから、受け取った最後の番号までのレコードがそろっているかを検査した (`scripts/verify.py`)。
