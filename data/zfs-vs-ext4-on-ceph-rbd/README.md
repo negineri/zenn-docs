@@ -1,4 +1,4 @@
-<!-- cspell:ignore PGONLY VMID ashift blockdev fallocate fdatasync iothread itable osync pgbench prewritten randread recordsize setra smallfiles vdev virtio wipefs writeback xattr zpool -->
+<!-- cspell:ignore Btrfs FSLIST PGONLY VMID ashift blockdev btrfs fallocate fdatasync iothread itable noatime osync pgbench prewritten randread recordsize setra smallfiles subvolume vdev virtio wipefs writeback xattr zpool -->
 
 # Ceph RBD の上の ZFS と ext4 の計測データ
 
@@ -22,6 +22,10 @@
 | `small-files-fsync.jsonl` | 64 KiB のファイルを 1 個ずつ作り、ファイルとディレクトリを fsync する (15 秒)。`cache=none` と `cache=writeback` | `scripts/small-files-fsync.sh <キャッシュモードの名前>` |
 | `fio-fsync-on-close-zfs.txt` | fio の `--fsync_on_close` で小さいファイルを作ったとき、ZFS が ZIL に何も書かずに fsync を返した記録 (ZIL の統計とブロック層のトレースの集計) | `scripts/fio-fsync-on-close-trace.sh <キャッシュモードの名前>` |
 | `pgbench-interleaved.jsonl` | ext4、XFS、ZFS 128K の pgbench を交互に 3 巡 (記事の PostgreSQL の表) | `scripts/fs-workloads.sh` を `PGONLY=1` で |
+| `btrfs-fs-workloads.jsonl` | ext4、Btrfs、ZFS 128K の 10 種の負荷を同じ時間帯に測ったもの。`*-snap79` は 79 世代のスナップショットを作ってから測ったもの (`snapshots_create` の行がその作成) | `scripts/fs-workloads.sh <構成>`、`SNAPS=79` を付けると世代を作る |
+| `btrfs-pgbench-interleaved.jsonl` | ext4、Btrfs、ZFS 128K の pgbench を交互に 3 巡 | `scripts/fs-workloads.sh` を `PGONLY=1` で |
+| `btrfs-small-files-fsync.jsonl` | ext4、Btrfs、ZFS 128K で、64 KiB のファイルを 1 個ずつ作って fsync する負荷を交互に 2 巡 (`cache=writeback`) | `scripts/small-files-fsync.sh` を `FSLIST="ext4 btrfs zfs128k"` で |
+| `xattr-limits.txt` | 1 つの拡張属性に書ける大きさ | (ファイルの先頭に方法を記載) |
 | `pgbench-zfs-layouts.jsonl` | ZFS で recordsize と WAL の置き方を変えた 4 構成の pgbench を交互に 3 巡。ZIL の統計の差も記録した | `scripts/pgbench-zfs-layouts.sh <構成> <巡>` |
 
 ### sync-writes.jsonl
@@ -40,6 +44,12 @@
 - Ceph はほかの VM と共有しているので、同じ構成でも時刻によって tps が 2 割ほど変わった。構成どうしは、交互に流したファイルの中で比べる
 - `pgbench-zfs-layouts.jsonl` の `zil_*` は、pgbench の 60 秒の間の ZIL の統計 (`/proc/spl/kstat/zfs/zil`) の差。`rbd_writes` は flush を除いた書き込みの回数
 
+### Btrfs の計測について
+
+- Btrfs は `mkfs.btrfs` の既定値で作り、`noatime` でマウントした
+- `scripts/fs-workloads.sh` はサブボリューム `data` を作ってその中で測るつもりだったが、`btrfs subvolume create` に付けた `-q` がこのバージョンでは使えず、サブボリュームは作られなかった。ファイルはトップレベルのサブボリュームに置かれ、スナップショットもトップレベルから取った
+- 79 世代のスナップショットは、世代ごとに 8 GiB のファイルの 4 KiB を 256 か所書き換え、`sync` してから作った。Btrfs は読み取り専用のスナップショット、ZFS は `zfs snapshot`
+
 ### fs-workloads.jsonl
 
 | `config` | 内容 |
@@ -49,6 +59,7 @@
 | `xfs` | 既定値 |
 | `zfs128k` | ashift 9、recordsize 128K、lz4、xattr=sa、atime=off、`zfs_vdev_async_read_max_active` と `zfs_vdev_async_write_max_active` を 32 |
 | `zfs16k` | `zfs128k` の recordsize を 16K にしたもの |
+| `btrfs` | Btrfs。既定値、`noatime` (`btrfs-fs-workloads.jsonl` のみ) |
 | `zfs16k-pg` | `zfs128k` のプールに、recordsize 16K のデータセットを作って PostgreSQL を置いたもの (pgbench だけ) |
 
 | `test` | 内容 |

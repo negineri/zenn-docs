@@ -4,11 +4,12 @@ L=$1 D=/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi1 M=/mnt/t P=/sys/modu
 B=$(basename $(readlink -f $D))
 teardown(){ umount $M 2>/dev/null; zpool destroy -f tb 2>/dev/null; wipefs -aq $D >/dev/null 2>&1; }
 mkdir -p $M
-for fs in ext4 xfs zfs128k; do
+for fs in ${FSLIST:-ext4 xfs zfs128k}; do
   teardown
   case $fs in
     ext4) mkfs.ext4 -q -F -E lazy_itable_init=0,lazy_journal_init=0 $D && mount $D $M ;;
     xfs) mkfs.xfs -q -f $D && mount $D $M ;;
+    btrfs) mkfs.btrfs -q -f $D && mount -o noatime $D $M ;;
     zfs128k) echo 32 > $P/zfs_vdev_async_read_max_active; echo 32 > $P/zfs_vdev_async_write_max_active
       zpool create -f -o ashift=9 -O recordsize=128K -O compression=lz4 -O xattr=sa -O atime=off -O mountpoint=$M tb $D ;;
   esac
