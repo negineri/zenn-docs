@@ -1,0 +1,25 @@
+# cache=none
+raw  fdatasync4k: 593 IOPS  per op: writes 2.00  flushes 1.00  KiB 4.0
+ext4 fdatasync4k (fio layout): 240 IOPS  per op: writes 3.14  flushes 1.00  KiB 312.0
+ext4 osync16k    (fio layout): 252 IOPS  per op: writes 3.00  flushes 1.00  KiB 32.1
+ext4 fdatasync4k (dd prewritten): 582 IOPS  per op: writes 2.00  flushes 1.00  KiB 4.0
+ext4 fdatasync4k (dd prewritten,direct): 689 IOPS  per op: writes 2.00  flushes 1.00  KiB 4.0
+xfs fdatasync4k (fio layout): 328 IOPS  per op: writes 2.00  flushes 1.00  KiB 17.2
+xfs osync16k    (fio layout): 240 IOPS  per op: writes 3.50  flushes 1.00  KiB 24.8
+xfs fdatasync4k (dd prewritten): 590 IOPS  per op: writes 2.00  flushes 1.00  KiB 4.0
+xfs fdatasync4k (dd prewritten,direct): 694 IOPS  per op: writes 2.00  flushes 1.00  KiB 4.0
+zfs fdatasync4k (fio layout): 600 IOPS  per op: writes 2.13  flushes 1.00  KiB 13.5
+zfs osync16k    (fio layout): 577 IOPS  per op: writes 2.27  flushes 1.00  KiB 39.8
+
+# cache=writeback
+raw  fdatasync4k: 621 IOPS  per op: writes 2.00  flushes 1.00  KiB 4.0
+ext4 fdatasync4k (fio layout): 372 IOPS  per op: writes 3.09  flushes 1.00  KiB 208.5
+ext4 osync16k    (fio layout): 365 IOPS  per op: writes 3.00  flushes 1.00  KiB 32.0
+ext4 fdatasync4k (dd prewritten): 601 IOPS  per op: writes 2.00  flushes 1.00  KiB 4.0
+ext4 fdatasync4k (dd prewritten,direct): 718 IOPS  per op: writes 2.00  flushes 1.00  KiB 4.0
+xfs fdatasync4k (fio layout): 353 IOPS  per op: writes 2.00  flushes 1.00  KiB 17.4
+xfs osync16k    (fio layout): 326 IOPS  per op: writes 3.48  flushes 1.00  KiB 24.7
+xfs fdatasync4k (dd prewritten): 611 IOPS  per op: writes 2.00  flushes 1.00  KiB 4.0
+xfs fdatasync4k (dd prewritten,direct): 717 IOPS  per op: writes 2.00  flushes 1.00  KiB 4.0
+zfs fdatasync4k (fio layout): 642 IOPS  per op: writes 2.19  flushes 1.00  KiB 13.5
+zfs osync16k    (fio layout): 669 IOPS  per op: writes 2.35  flushes 1.00  KiB 39.6
