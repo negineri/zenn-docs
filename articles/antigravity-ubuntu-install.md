@@ -6,7 +6,7 @@ topics: ["ubuntu", "linux", "antigravity", "electron"]
 published: true
 ---
 
-<!-- cspell:ignore apparmor asar elif gio pathlib readlink setuid startswith userns xdg xzf -->
+<!-- cspell:ignore asar elif gio pathlib readlink setuid startswith xdg xzf -->
 
 ## はじめに
 
@@ -20,7 +20,7 @@ Antigravity の Linux x64 版は `tar.gz` で配布されており、展開し�
 - 必要なコマンド: `python3`、`desktop-file-validate`、`update-desktop-database`（後者 2 つは `desktop-file-utils` パッケージに含まれる）
 - サンドボックスのエラー回避に Google Chrome のヘルパーを使う場合は、Google Chrome がインストール済みであること（`/opt/google/chrome/chrome-sandbox` が存在する環境）
 
-手順はすべて一般ユーザーの端末で実行します。
+前提のコマンドがそろっていれば、手順はすべて `sudo` を使わず一般ユーザーの権限で実行できます。
 
 ## 1. アーカイブを展開する
 
@@ -35,11 +35,9 @@ if [ ! -e "$HOME/.local/opt/Antigravity-x64" ]; then
 fi
 ```
 
-展開が終わったら、`~/.local/opt/Antigravity-x64/antigravity` が作られていることを確認します。
+展開すると `~/.local/opt/Antigravity-x64/antigravity` が作成されます。
 
 ## 2. 端末から起動を確認する
-
-まずは端末から直接起動して動作を確かめます。
 
 ```bash
 "$HOME/.local/opt/Antigravity-x64/antigravity"
@@ -49,7 +47,7 @@ fi
 
 ### SUID サンドボックスのエラーが出る場合
 
-Ubuntu 26.04（`kernel.apparmor_restrict_unprivileged_userns = 1` の環境）では、端末に次のエラーが表示されて起動できないことがあります。
+端末に次のエラーが表示されて起動できないことがあります。
 
 ```text
 The SUID sandbox helper binary was found, but is not configured correctly
@@ -57,7 +55,7 @@ The SUID sandbox helper binary was found, but is not configured correctly
 
 今回の環境では、`sudo` を使わずに解決する方法として、インストール済みの Google Chrome に付属する `/opt/google/chrome/chrome-sandbox` へのシンボリックリンクに差し替えることで起動できました。
 
-次のコマンドは、Chrome 側のヘルパーが `root` 所有かつ実行権限と setuid ビット付きであることを確認します。条件を満たせば、同梱の `chrome-sandbox` を `chrome-sandbox.bundled` に退避してリンクを作成します。
+Chrome 側のヘルパーが `root` 所有かつ実行権限と setuid ビット付きであることを確認し、条件を満たせば同梱の `chrome-sandbox` を `chrome-sandbox.bundled` に退避してリンクを作成します。
 
 ```bash
 app="$HOME/.local/opt/Antigravity-x64"
@@ -79,7 +77,7 @@ fi
 
 ## 3. アプリ同梱のアイコンを取り出す
 
-展開したディレクトリ直下にはアイコン画像が置かれておらず、`resources/app.asar` の中に `icon.png` として格納されています。
+アイコン画像は `resources/app.asar` の中に `icon.png` として格納されています。
 Python 3 の標準ライブラリで `icon.png` を取り出し、ユーザー用のアイコンディレクトリに保存します。
 
 ```bash
