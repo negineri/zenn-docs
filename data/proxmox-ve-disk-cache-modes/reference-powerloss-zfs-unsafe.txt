@@ -1,0 +1,14 @@
+# 対照実験: テスト VM, 追加ディスク cache=unsafe 上の ZFS (ashift=9, recordsize=128K)
+# qemu の起動引数で データ用ディスク の "cache":{"direct":false,"no-flush":true} を確認した (フラッシュを無視する)
+# 手順は writeback と同じ (scripts/powerloss-run.sh)。データの消失か破損を確認した時点で打ち切る
+killed at 00:27:36
+[us01] pool 'tank' is healthy
+[us01] records_on_disk=102957 last_valid=102956 acked=102964 torn_tail_bytes=0 LOST_ACKED_DATA
+STOP at us01
+
+# 1 回目で ack 済みの 102957〜102964 (8 件) が残っていなかった。プールは healthy
+# kill までの fsync 回数: 102965 (first=0, last=102964)
+
+# 打ち切った後の scrub
+scan: scrub repaired 0B in 00:00:21 with 0 errors on Fri Oct 16 15:33:19 2026
+errors: No known data errors

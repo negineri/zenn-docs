@@ -1,0 +1,4 @@
+{"phases_sec_from_start": {"T0": 0, "T1": 5, "T2": 35, "T3": 125, "T4": 156}, "note": "T0-T1: seqW12G, T1-T2: fsync_hot, T2-T3: idle, T3-T4: fsync_cold"}
+{"test": "seqW12G", "MBps": 3462.8, "iops": 3302, "mean_us": 4781.7, "p99_us": 5275.6, "max_us": 9258.0}
+{"test": "fsync_hot", "MBps": 0.7, "iops": 175, "mean_us": 43.5, "p99_us": 76.3, "max_us": 331.3}
+{"test": "fsync_cold", "MBps": 4.6, "iops": 1127, "mean_us": 40.5, "p99_us": 73.2, "max_us": 1000.4}

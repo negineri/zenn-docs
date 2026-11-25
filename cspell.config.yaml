@@ -6,6 +6,26 @@ words:
   - witenp
   - Quadlet
   - Podman
+  - librbd
+  - krbd
+  - rados
+  - writeback
+  - writethrough
+  - writearound
+  - directsync
+  - iothread
+  - virtio
+  - BDRV
+  - NOCACHE
+  - VMID
+  - acked
+  - acks
+  - ashift
+  - clat
+  - powerloss
+  - pvestatd
+  - recordsize
+  - mbps
 ignorePaths:
   - node_modules/**
   - package-lock.json
