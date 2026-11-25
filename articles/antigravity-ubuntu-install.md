@@ -6,7 +6,7 @@ topics: ["ubuntu", "linux", "antigravity", "electron"]
 published: false
 ---
 
-<!-- cspell:ignore apparmor asar gio readlink setuid startswith userns xdg xzf -->
+<!-- cspell:ignore apparmor asar elif gio pathlib readlink setuid startswith userns xdg xzf -->
 
 ## はじめに
 
