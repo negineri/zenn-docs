@@ -1,0 +1,16 @@
+{"disk": "ec_4M", "test": "seq128k_qd16", "MBps": 440, "clat_ms": 4.75}
+{"disk": "ec_4M", "test": "seq128k_qd128", "MBps": 1321, "clat_ms": 12.68}
+{"disk": "ec_4M", "test": "rand128k_qd128", "MBps": 1999, "clat_ms": 8.37}
+{"disk": "ec_4M", "test": "seq1M_qd64", "MBps": 2007, "clat_ms": 33.36}
+{"disk": "rep_4M", "test": "seq128k_qd16", "MBps": 353, "clat_ms": 5.93}
+{"disk": "rep_4M", "test": "seq128k_qd128", "MBps": 1210, "clat_ms": 13.85}
+{"disk": "rep_4M", "test": "rand128k_qd128", "MBps": 2002, "clat_ms": 8.37}
+{"disk": "rep_4M", "test": "seq1M_qd64", "MBps": 2463, "clat_ms": 27.18}
+{"disk": "rep_obj1M", "test": "seq128k_qd16", "MBps": 684, "clat_ms": 3.05}
+{"disk": "rep_obj1M", "test": "seq128k_qd128", "MBps": 1751, "clat_ms": 9.56}
+{"disk": "rep_obj1M", "test": "rand128k_qd128", "MBps": 1902, "clat_ms": 8.8}
+{"disk": "rep_obj1M", "test": "seq1M_qd64", "MBps": 2444, "clat_ms": 27.39}
+{"disk": "rep_stripe128Kx8", "test": "seq128k_qd16", "MBps": 923, "clat_ms": 2.26}
+{"disk": "rep_stripe128Kx8", "test": "seq128k_qd128", "MBps": 1534, "clat_ms": 10.92}
+{"disk": "rep_stripe128Kx8", "test": "rand128k_qd128", "MBps": 2004, "clat_ms": 8.36}
+{"disk": "rep_stripe128Kx8", "test": "seq1M_qd64", "MBps": 1537, "clat_ms": 43.59}

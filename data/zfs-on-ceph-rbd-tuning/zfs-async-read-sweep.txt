@@ -1,0 +1,24 @@
+# ZFS の冷えた連続読み取り (scripts/zfs-async-read-sweep.sh、scripts/zfs-async-read-sweep-high.sh)。2026-11-24
+# 3〜128 は f0〜f5、run2 はファイルの割り当てを入れ替えた
+run1 async_read=3   file=f0   250 MB/s
+run1 async_read=8   file=f1   277 MB/s
+run1 async_read=16  file=f2   373 MB/s
+run1 async_read=32  file=f3   564 MB/s
+run1 async_read=64  file=f4   818 MB/s
+run1 async_read=128 file=f5  1223 MB/s
+run2 async_read=3   file=f5   258 MB/s
+run2 async_read=8   file=f4   269 MB/s
+run2 async_read=16  file=f3   377 MB/s
+run2 async_read=32  file=f2   559 MB/s
+run2 async_read=64  file=f1   842 MB/s
+run2 async_read=128 file=f0  1219 MB/s
+
+# 128〜1000 は新しく書いた g0〜g3 で測り直した
+run1 async_read=128 file=g0 1209 MB/s
+run1 async_read=256 file=g1 1273 MB/s
+run1 async_read=512 file=g2 1346 MB/s
+run1 async_read=1000 file=g3 1335 MB/s
+run2 async_read=128 file=g3 1264 MB/s
+run2 async_read=256 file=g2 1260 MB/s
+run2 async_read=512 file=g1 1273 MB/s
+run2 async_read=1000 file=g0 1327 MB/s

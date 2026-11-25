@@ -33,6 +33,14 @@ words:
   - xattr
   - iothread
   - zfetch
+  - Gbps
+  - avgcount
+  - clat
+  - diskstats
+  - gcpu
+  - randread
+  - stime
+  - utime
 ignorePaths:
   - node_modules/**
   - package-lock.json
