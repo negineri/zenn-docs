@@ -1,6 +1,6 @@
 # Proxmox VE のディスクのキャッシュモードの計測データ
 
-記事 [Proxmox VE のディスクのキャッシュモードを Ceph RBD とローカル SSD で測る](../../articles/proxmox-ve-disk-cache-modes.md) の根拠となる計測結果と、計測に使ったスクリプト。
+記事 [Proxmox VEのVMディスクの推奨キャッシュ設定を実測から理解する](../../articles/proxmox-ve-disk-cache-modes.md) の根拠となる計測結果と、計測に使ったスクリプト。
 ホスト名、IP アドレス、VMID は伏せている。
 
 ## fio の結果
