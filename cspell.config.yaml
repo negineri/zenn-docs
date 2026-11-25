@@ -17,9 +17,6 @@ words:
   - virtio
   - BDRV
   - NOCACHE
-  - innodb
-  - OCFS
-  - nobarrier
   - VMID
   - acked
   - acks
