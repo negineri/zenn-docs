@@ -1,0 +1,6 @@
+{"cache": "none", "fs": "ext4", "files_per_s": 227, "writes_per_file": 2.0, "flushes_per_file": 1.0, "KiB_per_file": 96.0}
+{"cache": "none", "fs": "xfs", "files_per_s": 303, "writes_per_file": 1.02, "flushes_per_file": 1.0, "KiB_per_file": 83.0}
+{"cache": "none", "fs": "zfs128k", "files_per_s": 453, "writes_per_file": 2.03, "flushes_per_file": 1.0, "KiB_per_file": 68.4}
+{"cache": "writeback", "fs": "ext4", "files_per_s": 356, "writes_per_file": 2.0, "flushes_per_file": 1.0, "KiB_per_file": 96.0}
+{"cache": "writeback", "fs": "xfs", "files_per_s": 325, "writes_per_file": 1.01, "flushes_per_file": 1.0, "KiB_per_file": 83.1}
+{"cache": "writeback", "fs": "zfs128k", "files_per_s": 491, "writes_per_file": 2.05, "flushes_per_file": 1.0, "KiB_per_file": 68.5}

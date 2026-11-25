@@ -1,4 +1,4 @@
-<!-- cspell:ignore VMID ashift blockdev fallocate fdatasync iothread itable osync pgbench prewritten randread recordsize setra smallfiles vdev virtio wipefs writeback xattr zpool -->
+<!-- cspell:ignore PGONLY VMID ashift blockdev fallocate fdatasync iothread itable osync pgbench prewritten randread recordsize setra smallfiles vdev virtio wipefs writeback xattr zpool -->
 
 # Ceph RBD の上の ZFS と ext4 の計測データ
 
@@ -19,6 +19,10 @@
 | `sync-writes.jsonl` | 同期書き込み 4 種と小さいファイルの作成。`cache=none` と `cache=writeback` | `scripts/sync-writes.sh <キャッシュモードの名前>` |
 | `sync-io-per-op.txt` | 1 回の fdatasync / O_SYNC で、ゲストから RBD に出た書き込みと flush の数と量 | `scripts/sync-io-per-op.sh` |
 | `fs-workloads.jsonl` | 6 つの構成で 10 種の負荷。各負荷の間に RBD に出た読み書きの量も記録した (`cache=writeback`) | `scripts/fs-workloads.sh <構成>` |
+| `small-files-fsync.jsonl` | 64 KiB のファイルを 1 個ずつ作り、ファイルとディレクトリを fsync する (15 秒)。`cache=none` と `cache=writeback` | `scripts/small-files-fsync.sh <キャッシュモードの名前>` |
+| `fio-fsync-on-close-zfs.txt` | fio の `--fsync_on_close` で小さいファイルを作ったとき、ZFS が ZIL に何も書かずに fsync を返した記録 (ZIL の統計とブロック層のトレースの集計) | `scripts/fio-fsync-on-close-trace.sh <キャッシュモードの名前>` |
+| `pgbench-interleaved.jsonl` | ext4、XFS、ZFS 128K の pgbench を交互に 3 巡 (記事の PostgreSQL の表) | `scripts/fs-workloads.sh` を `PGONLY=1` で |
+| `pgbench-zfs-layouts.jsonl` | ZFS で recordsize と WAL の置き方を変えた 4 構成の pgbench を交互に 3 巡。ZIL の統計の差も記録した | `scripts/pgbench-zfs-layouts.sh <構成> <巡>` |
 
 ### sync-writes.jsonl
 
@@ -30,6 +34,11 @@
 
 - `writes` はブロック層の統計の書き込み回数で、flush も 1 回として数えられている
 - `fio layout` は fio が `fallocate` で確保したファイル、`dd prewritten` は先に `dd` で全体を書いたファイル
+
+### pgbench について
+
+- Ceph はほかの VM と共有しているので、同じ構成でも時刻によって tps が 2 割ほど変わった。構成どうしは、交互に流したファイルの中で比べる
+- `pgbench-zfs-layouts.jsonl` の `zil_*` は、pgbench の 60 秒の間の ZIL の統計 (`/proc/spl/kstat/zfs/zil`) の差。`rbd_writes` は flush を除いた書き込みの回数
 
 ### fs-workloads.jsonl
 
@@ -56,5 +65,5 @@
 
 - キャッシュを空にするには、ext4 / XFS はアンマウントとマウントと `drop_caches`、ZFS は `zpool export` と `zpool import` を使った
 - `rbd_*` は、その負荷の間にゲストから RBD (データ用ディスク) に出た読み書きの回数と量 (MiB) と flush の回数
-- 行は計測した順に並んでいる。`pgbench_s100_c8` は構成ごとに複数回測った。`zfs128k` の最初の 1 回 (1689 tps) だけ低い
+- 行は計測した順に並んでいる。`pgbench_s100_c8` は構成ごとに複数回測ったが、構成ごとにまとめて流したので、時刻による変動 (2 割ほど) を含む。記事の PostgreSQL の表には `pgbench-interleaved.jsonl` を使った
 - `ext4` は 1 度測り直している。最初の計測は mkfs 直後の裏での初期化の書き込みが重なっていたので、ファイルに含めていない
