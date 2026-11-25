@@ -85,7 +85,8 @@ ZFS は ashift 9、recordsize 128K、lz4、`xattr=sa`、atime=off、Btrfs は既
 
 ### Samba で起きやすい負荷
 
-Samba は既定 (`strict sync = yes`) で、クライアントからの flush の要求を fsync に変えます。
+Samba は、クライアントから「データをディスクに書き出してほしい」という flush の要求が来ると、それに従ってファイルシステムに書き出させます。
+これを決める `strict sync` は、Samba 4.7.0 から既定が `yes` になりました ([smb.conf の説明](https://github.com/samba-team/samba/blob/master/docs-xml/smbdotconf/tuning/strictsync.xml))。
 クライアントが flush を送るかどうかはアプリによりますが、保存のたびに fsync が起きる前提で比べておくのが安全です。
 
 | 負荷 | ext4 | Btrfs | ZFS |
