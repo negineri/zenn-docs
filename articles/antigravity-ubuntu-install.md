@@ -3,7 +3,7 @@ title: "Ubuntu で Antigravity（tar.gz 版）をインストールしてアプ�
 emoji: "🐧"
 type: "tech"
 topics: ["ubuntu", "linux", "antigravity", "electron"]
-published: false
+published: true
 ---
 
 <!-- cspell:ignore apparmor asar elif gio pathlib readlink setuid startswith userns xdg xzf -->
