@@ -2,11 +2,11 @@
 title: "Ubuntu で Antigravity（tar.gz 版）をインストールしてアプリ一覧に登録する"
 emoji: "🐧"
 type: "tech"
-topics: ["ubuntu", "linux", "antigravity", "electron"]
+topics: ["antigravity", "googleantigravity", "ubuntu", "linux", "gnome"]
 published: true
 ---
 
-<!-- cspell:ignore asar elif gio pathlib readlink setuid startswith xdg xzf -->
+<!-- cspell:ignore asar elif EPIPE gio googleantigravity pathlib readlink setuid startswith xdg xzf -->
 
 ## はじめに
 
@@ -119,7 +119,7 @@ cat > "$apps/antigravity.desktop" <<EOF
 [Desktop Entry]
 Type=Application
 Name=Antigravity
-Exec="$HOME/.local/opt/Antigravity-x64/antigravity"
+Exec=sh -c "exec '$HOME/.local/opt/Antigravity-x64/antigravity' >/dev/null 2>&1"
 Icon=$HOME/.local/share/icons/antigravity-app.png
 Terminal=false
 Categories=Development;
@@ -127,6 +127,8 @@ EOF
 desktop-file-validate "$apps/antigravity.desktop" &&
   update-desktop-database "$apps"
 ```
+
+`Exec` で標準出力と標準エラー出力を `/dev/null` へリダイレクトしているのは、起動後に `Error: write EPIPE` のダイアログが出るのを防ぐためです。出力先のパイプが閉じた状態で `electron-log` が `console.warn` を呼び出すと、未処理例外（`Uncaught Exception`）としてこのエラーが発生します。
 
 エラーが出ずに終了したら、Super キー（Windows ロゴのキー）を押して `Antigravity` と入力します。アイコンが表示され、クリックしてウィンドウが開けば登録完了です。
 
