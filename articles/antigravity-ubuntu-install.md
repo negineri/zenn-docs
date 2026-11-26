@@ -2,11 +2,11 @@
 title: "Ubuntu で Antigravity（tar.gz 版）をインストールしてアプリ一覧に登録する"
 emoji: "🐧"
 type: "tech"
-topics: ["ubuntu", "linux", "antigravity", "electron"]
+topics: ["antigravity", "googleantigravity", "ubuntu", "linux", "gnome"]
 published: true
 ---
 
-<!-- cspell:ignore asar elif EPIPE gio pathlib readlink setuid startswith xdg xzf -->
+<!-- cspell:ignore asar elif EPIPE gio googleantigravity pathlib readlink setuid startswith xdg xzf -->
 
 ## はじめに
 
