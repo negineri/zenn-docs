@@ -1,0 +1,9 @@
+{"config": "ext4", "test": "pgbench_s100_c8", "value": 2246, "unit": "tps", "seconds": 60, "rbd_reads": 21833, "rbd_read_MiB": 213.5, "rbd_writes": 129205, "rbd_write_MiB": 1784.0, "rbd_flushes": 37139, "run": 1}
+{"config": "xfs", "test": "pgbench_s100_c8", "value": 2008, "unit": "tps", "seconds": 60, "rbd_reads": 15443, "rbd_read_MiB": 148.5, "rbd_writes": 117404, "rbd_write_MiB": 1655.9, "rbd_flushes": 33661, "run": 1}
+{"config": "zfs128k", "test": "pgbench_s100_c8", "value": 2065, "unit": "tps", "seconds": 60, "rbd_reads": 0, "rbd_read_MiB": 0.0, "rbd_writes": 111932, "rbd_write_MiB": 1717.2, "rbd_flushes": 32554, "run": 1}
+{"config": "ext4", "test": "pgbench_s100_c8", "value": 2261, "unit": "tps", "seconds": 60, "rbd_reads": 22434, "rbd_read_MiB": 218.4, "rbd_writes": 129489, "rbd_write_MiB": 1784.3, "rbd_flushes": 37483, "run": 2}
+{"config": "xfs", "test": "pgbench_s100_c8", "value": 2140, "unit": "tps", "seconds": 60, "rbd_reads": 14580, "rbd_read_MiB": 140.4, "rbd_writes": 123174, "rbd_write_MiB": 1722.8, "rbd_flushes": 35622, "run": 2}
+{"config": "zfs128k", "test": "pgbench_s100_c8", "value": 2043, "unit": "tps", "seconds": 60, "rbd_reads": 0, "rbd_read_MiB": 0.0, "rbd_writes": 109306, "rbd_write_MiB": 1681.1, "rbd_flushes": 32214, "run": 2}
+{"config": "ext4", "test": "pgbench_s100_c8", "value": 2230, "unit": "tps", "seconds": 60, "rbd_reads": 20391, "rbd_read_MiB": 196.6, "rbd_writes": 127828, "rbd_write_MiB": 1766.3, "rbd_flushes": 36790, "run": 3}
+{"config": "xfs", "test": "pgbench_s100_c8", "value": 1977, "unit": "tps", "seconds": 60, "rbd_reads": 13400, "rbd_read_MiB": 126.5, "rbd_writes": 116451, "rbd_write_MiB": 1648.3, "rbd_flushes": 33005, "run": 3}
+{"config": "zfs128k", "test": "pgbench_s100_c8", "value": 2066, "unit": "tps", "seconds": 60, "rbd_reads": 0, "rbd_read_MiB": 0.0, "rbd_writes": 111725, "rbd_write_MiB": 1719.2, "rbd_flushes": 32563, "run": 3}

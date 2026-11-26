@@ -1,0 +1,14 @@
+# fio --fsync_on_close で 64 KiB のファイル 300 個を作ったとき (新しく作ったプール)。ZIL の統計の差とブロック層のトレースの集計
+# fio は全ファイルに先に書き、最後にまとめて fsync する。ZFS は最初の fsync で ZIL を作るために TXG の書き出しを待ち、その書き出しで全ファイルが書かれる
+{"cache":"none","fs":"zfs128k","files_per_s":1507.5}
+  zil delta: {'zil_commit_count': 300, 'zil_commit_writer_count': 300, 'zil_itx_metaslab_normal_count': 1, 'zil_itx_metaslab_normal_bytes': 184, 'zil_itx_metaslab_normal_write': 4096, 'zil_itx_metaslab_normal_alloc': 4096}
+{"cache":"none","fs":"ext4","files_per_s":277.5}
+{"cache":"writeback","fs":"zfs128k","files_per_s":4545.5}
+  zil delta: {'zil_commit_count': 300, 'zil_commit_writer_count': 300, 'zil_itx_metaslab_normal_count': 1, 'zil_itx_metaslab_normal_bytes': 184, 'zil_itx_metaslab_normal_write': 4096, 'zil_itx_metaslab_normal_alloc': 4096}
+{"cache":"writeback","fs":"ext4","files_per_s":385.6}
+
+# ブロック層のトレース (block_rq_issue) の種類ごとの数。300 ファイル分。W=書き込み、WS=同期書き込み、FF=flush、M=メタデータ、F (先頭以外)=FUA
+none-zfs128k W=191 (19320 KiB) FF=3 (0 KiB)
+writeback-zfs128k W=230 (19386 KiB) FF=5 (0 KiB)
+none-ext4 WS=300 (19200 KiB) WSM=300 (2504 KiB) FF=300 (0 KiB) WFSM=300 (1200 KiB)
+writeback-ext4 WS=300 (19200 KiB) WSM=300 (2504 KiB) FF=300 (0 KiB) WFSM=300 (1200 KiB)

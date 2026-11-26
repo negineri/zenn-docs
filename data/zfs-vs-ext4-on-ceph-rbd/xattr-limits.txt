@@ -1,0 +1,6 @@
+# 1 つの拡張属性に書ける大きさ (user.* 名前空間、os.setxattr)。値は (KiB × 1024 - 64) バイト
+ext4: 3K=ok 4K=NG 16K=NG 20K=NG 60K=NG 70K=NG 1024K=NG
+ext4-ea_inode: 3K=ok 4K=ok 16K=ok 20K=ok 60K=ok 70K=NG 1024K=NG
+xfs: 3K=ok 4K=ok 16K=ok 20K=ok 60K=ok 70K=NG 1024K=NG
+btrfs: 3K=ok 4K=ok 16K=NG 20K=NG 60K=NG 70K=NG 1024K=NG
+zfs: 3K=ok 4K=ok 16K=ok 20K=ok 60K=ok 70K=NG 1024K=NG
