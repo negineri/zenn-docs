@@ -6,7 +6,7 @@ topics: ["ubuntu", "linux", "antigravity", "electron"]
 published: true
 ---
 
-<!-- cspell:ignore asar elif gio pathlib readlink setuid startswith xdg xzf -->
+<!-- cspell:ignore asar elif EPIPE gio pathlib readlink setuid startswith xdg xzf -->
 
 ## はじめに
 
